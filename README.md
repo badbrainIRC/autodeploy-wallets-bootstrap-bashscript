@@ -1,6 +1,6 @@
 # autodeploy-wallets-bootstrap-bashscript
 
-Deploying any wallet without user intervention:
+Deploying any wallet without user intervention (Linux only):
 
 -autofix some know issue for specific linux distro
 
