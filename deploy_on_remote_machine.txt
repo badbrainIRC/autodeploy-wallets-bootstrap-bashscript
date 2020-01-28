@@ -1,0 +1,1 @@
+sshpass -p <password> ssh -X <user>@<hostip> -o StrictHostKeyChecking=no wget -O - https://raw.githubusercontent.com/vergecurrency/VERGE/master/go.sh | bash
