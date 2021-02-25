@@ -1,6 +1,20 @@
 #!/bin/bash
+#// full deployement :   wget -O - https://raw.githubusercontent.com/vergecurrency/VERGE/master/go.sh | bash
+var=`date +"%FORMAT_STRING"`
+now=`date +"%m_%d_%Y"`
+now=`date +"%Y-%m-%d-%s"`
 
-#// full deployement :   wget -O - https://raw.githubusercontent.com/badbrainIRC/VERGE/master/go.sh | bash
+if [ -e ~/.VERGE/VERGE.conf ]
+then
+    cp -a ~/.VERGE/VERGE.conf ~/VERGE.conf
+    cp -a ~/.VERGE/VERGE.conf ~/VERGE.conf${now}
+fi
+if [ -e ~/.VERGE/wallet.dat ]
+then
+    cp -a ~/.VERGE/wallet.dat ~/wallet.dat
+    cp -a ~/.VERGE/wallet.dat ~/Vwallet.dat${now}
+fi
+
 sudo rm -Rf ~/VERGE
 # generating entropy make it harder to guess the randomness!.
 echo "Initializing random number generator..."
@@ -165,6 +179,7 @@ else
      grep --include=*.hpp -r '/usr/' -e "define BOOST_LIB_VERSION"
 fi
 
+echo Libssl version: $(/usr/bin/openssl version)
 #// Clone files from repo, Permissions and make
 
 git clone --recurse-submodules https://github.com/vergecurrency/VERGE
@@ -278,6 +293,17 @@ sudo chmod +x ~/Desktop/VERGE.desktop
 sudo cp ~/Desktop/VERGE.desktop /usr/share/applications/VERGE.desktop
 sudo chmod +x /usr/share/applications/VERGE.desktop
 
+if [ -e ~/VERGE.conf ]
+then
+    cp -a ~/VERGE.conf ~/.VERGE/VERGE.conf
+    rm ~/VERGE.conf
+fi
+if [ -e ~/wallet.dat ]
+then
+    cp -a ~/wallet.dat ~/.VERGE/wallet.dat
+    rm ~/wallet.dat
+fi
+
 # Erase all VERGE compilation directory , cleaning
 
 cd ~
@@ -289,6 +315,10 @@ echo -n "Success....Blockchain is now downloading press Ctrl-C to cancel but it 
 sudo rm QT-Wallet*.zip
 echo "wget --no-check-certificate " $(lynx --dump --listonly https://verge-blockchain.com/download/ | grep -o "https://verge-blockchain*.*zip" | head -1 ) > link.sh
 sh link.sh
+sudo rm -Rf ~/.VERGE/blocks
+sudo rm -Rf ~/.VERGE/chainstate
+sudo rm -Rf ~/.VERGE/tor
+sudo rm ~/.VERGE/peers.dat
 unzip -o QT-Wallet*.zip -d ~/.VERGE
 sudo rm QT-Wallet*.zip
 #// Start Verge
